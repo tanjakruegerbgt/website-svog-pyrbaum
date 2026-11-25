@@ -1,4 +1,5 @@
 const path = require('path');
+const { LayoutPlugin } = require('./layout/LayoutPlugin');
 
 module.exports = {
   entry: {
@@ -9,4 +10,5 @@ module.exports = {
     clean: true,
     filename: './js/app.js',
   },
+  plugins: [new LayoutPlugin()],
 };

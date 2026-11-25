@@ -7,13 +7,12 @@ module.exports = merge(common, {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: 'index.html', to: 'index.html' },
         { from: 'index.css', to: 'index.css' },
-        { from: 'datenschutz', to: 'datenschutz' },
-        { from: 'igp', to: 'igp' },
-        { from: 'impressum', to: 'impressum' },
-        { from: 'kontakt', to: 'kontakt' },
-        { from: 'rally-obedience', to: 'rally-obedience' },
+        { from: 'datenschutz', to: 'datenschutz', globOptions: { ignore: ['**/index.html'] } },
+        { from: 'igp', to: 'igp', globOptions: { ignore: ['**/index.html'] } },
+        { from: 'impressum', to: 'impressum', globOptions: { ignore: ['**/index.html'] } },
+        { from: 'kontakt', to: 'kontakt', globOptions: { ignore: ['**/index.html'] } },
+        { from: 'rally-obedience', to: 'rally-obedience', globOptions: { ignore: ['**/index.html'] } },
         { from: 'images', to: 'images' },
         { from: 'css', to: 'css', noErrorOnMissing: true },
         { from: 'js/vendor', to: 'js/vendor' },
