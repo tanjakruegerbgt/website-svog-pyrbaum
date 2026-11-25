@@ -11,8 +11,8 @@ Der Webserver muss Verzeichnis-URLs wie `/kontakt` auf die jeweilige
 `index.html` auflösen und die Dateien im Ordner `dist` bereitstellen.
 
 Die Startseite liegt in `index.html`, die Unterseiten liegen jeweils in einem
-eigenen Verzeichnis. Die zugehörigen Stylesheets befinden sich in `_astro`,
-die Bilder in `images`. Die Dateien wurden aus der statischen Astro-Ausgabe
+eigenen Verzeichnis. Die zugehörigen Stylesheets liegen neben den jeweiligen
+HTML-Dateien, die Bilder in `images`. Die Dateien wurden aus der statischen Astro-Ausgabe
 übernommen und können hier unabhängig bearbeitet werden. Neue Meldungen werden
 direkt im News-Bereich der Startseite ergänzt.
 

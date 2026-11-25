@@ -8,14 +8,13 @@ module.exports = merge(common, {
     new CopyPlugin({
       patterns: [
         { from: 'index.html', to: 'index.html' },
+        { from: 'index.css', to: 'index.css' },
         { from: 'datenschutz', to: 'datenschutz' },
         { from: 'igp', to: 'igp' },
         { from: 'impressum', to: 'impressum' },
         { from: 'kontakt', to: 'kontakt' },
         { from: 'rally-obedience', to: 'rally-obedience' },
-        { from: '_astro', to: '_astro' },
         { from: 'images', to: 'images' },
-        { from: 'img', to: 'img' },
         { from: 'css', to: 'css', noErrorOnMissing: true },
         { from: 'js/vendor', to: 'js/vendor' },
         { from: 'icon.svg', to: 'icon.svg' },
