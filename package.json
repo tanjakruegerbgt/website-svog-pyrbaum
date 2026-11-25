@@ -1,25 +1,15 @@
 {
-  "name": " ",
+  "name": "hundesport-pyrbaum",
   "version": "0.0.1",
-  "description": "",
+  "description": "Statische Website für Hundesport Pyrbaum",
   "private": true,
-  "keywords": [
-    ""
-  ],
-  "license": "",
-  "author": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test:layout": "node --test tests/layout.test.js",
-    "start": "webpack serve --open --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js"
+  "engines": {
+    "node": ">=18.17"
   },
-  "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.6.0",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^5.10.0"
+  "scripts": {
+    "test": "node --test",
+    "test:layout": "node --test tests/layout.test.js",
+    "start": "node scripts/dev-server.js",
+    "build": "node scripts/build.js"
   }
 }

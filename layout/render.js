@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const pages = [
   'index.html',
   'datenschutz/index.html',
@@ -56,32 +53,4 @@ function renderPage(page, content, templates) {
   return replaceOnce(content, '<!-- layout:footer -->', footer, page);
 }
 
-class LayoutPlugin {
-  apply(compiler) {
-    compiler.hooks.thisCompilation.tap('LayoutPlugin', (compilation) => {
-      compilation.hooks.processAssets.tap(
-        { name: 'LayoutPlugin', stage: compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
-        () => {
-          const read = (filename) => {
-            const absolutePath = path.resolve(compiler.context, filename);
-            compilation.fileDependencies.add(absolutePath);
-            return fs.readFileSync(absolutePath, 'utf8');
-          };
-          const templates = {
-            header: read('layout/header.html'),
-            footer: read('layout/footer.html'),
-            logo: read('layout/logo.html'),
-            footerStyle: read('layout/footer.css'),
-          };
-          for (const page of pages) {
-            compilation.emitAsset(page, new compiler.webpack.sources.RawSource(
-              renderPage(page, read(page), templates),
-            ), { minimized: true });
-          }
-        },
-      );
-    });
-  }
-}
-
-module.exports = { LayoutPlugin, pages, renderPage };
+module.exports = { pages, renderPage };

@@ -5,8 +5,16 @@ unabhängig von Astro; der Build erstellt die fertigen HTML-Dateien für den Web
 
 ## Entwicklung und Veröffentlichung
 
-Nach `npm install` startet `npm start` den lokalen Entwicklungsserver.
-`npm run build` erstellt die veröffentlichungsfertige Website in `dist`.
+Voraussetzung ist Node.js ab Version 18.17; zusätzliche npm-Pakete werden nicht
+benötigt. `npm start` erstellt die Website und startet den lokalen
+Entwicklungsserver unter `http://localhost:8080`. Mit der Umgebungsvariable
+`PORT` lässt sich ein anderer Port wählen. Nach Änderungen an den Quelldateien
+wird die Website neu erstellt und die geöffnete Seite automatisch aktualisiert.
+Der Browser wird nicht automatisch geöffnet.
+
+`npm run build` erstellt die veröffentlichungsfertige Website in `dist` und
+ersetzt dabei dessen bisherigen Inhalt. `npm test` führt die Tests aus.
+CSS und die 404-Seite werden dabei unverändert kopiert und nicht minifiziert.
 Der Webserver muss Verzeichnis-URLs wie `/kontakt` auf die jeweilige
 `index.html` auflösen und die Dateien im Ordner `dist` bereitstellen.
 
