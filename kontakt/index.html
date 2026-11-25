@@ -1,27 +1,164 @@
-<!DOCTYPE html><html lang="de" data-astro-cid-657w5j3a><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v7.4.13"><meta name="description" content="Anfahrt und Kontakt zur Ortsgruppe Pyrbaum e. V. des Vereins für Deutsche Schäferhunde."><meta name="theme-color" content="#f6f5f0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><title>Kontakt &amp; Anfahrt – Hundesport Pyrbaum</title><!-- layout:footer-style --><link rel="stylesheet" href="/kontakt/kontakt.css"></head><body data-astro-cid-657w5j3a><!-- layout:header --><main data-astro-cid-657w5j3a><section class="directions" aria-labelledby="directions-title" data-astro-cid-657w5j3a><div class="section-inner" data-astro-cid-657w5j3a><p class="eyebrow" data-astro-cid-657w5j3a><span data-astro-cid-657w5j3a></span> ANFAHRT &amp; KONTAKT</p><h1 id="directions-title" data-astro-cid-657w5j3a>So findet <em data-astro-cid-657w5j3a>ihr uns.</em></h1><p class="intro" data-astro-cid-657w5j3a>Wir freuen uns auf euch und eure Vierbeiner in Pyrbaum.</p><div class="map-placeholder" data-astro-cid-657w5j3a><span class="map-icon" aria-hidden="true" data-astro-cid-657w5j3a>⌖</span><strong data-astro-cid-657w5j3a>Hier findet ihr bald die Anfahrt.</strong><span data-astro-cid-657w5j3a>Eine Karte wird später ergänzt.</span></div></div></section><section class="contact" aria-labelledby="contact-title" data-astro-cid-657w5j3a><div class="section-inner contact-layout" data-astro-cid-657w5j3a><div class="contact-intro" data-astro-cid-657w5j3a><p class="eyebrow" data-astro-cid-657w5j3a><span data-astro-cid-657w5j3a></span> SCHREIBT UNS</p><h2 id="contact-title" data-astro-cid-657w5j3a>Wir freuen uns<br data-astro-cid-657w5j3a>auf <em data-astro-cid-657w5j3a>euch.</em></h2><p data-astro-cid-657w5j3a>Ihr habt Fragen zu unserem Verein oder möchtet beim Training vorbeischauen? Nehmt gerne Kontakt mit uns auf.</p><p class="contact-note" data-astro-cid-657w5j3a>Mit dem Formular öffnet ihr euren E-Mail-Anbieter mit einer vorbefüllten Nachricht. Die Nachricht wird erst versendet, wenn ihr sie dort bestätigt.</p><a class="contact-link" href="mailto:svog-pyrbaum@web.de" data-astro-cid-657w5j3a>Direkt per E-Mail schreiben <span aria-hidden="true" data-astro-cid-657w5j3a>↗</span></a></div><div class="form-card" data-astro-cid-657w5j3a><h3 data-astro-cid-657w5j3a>Kontakt</h3><p id="form-status" data-astro-cid-657w5j3a>Alle Felder mit <strong data-astro-cid-657w5j3a>(erforderlich)</strong> müssen ausgefüllt werden.</p><form id="contact-form" aria-describedby="form-status" action="mailto:svog-pyrbaum@web.de" method="post" enctype="text/plain" data-astro-cid-657w5j3a><fieldset data-astro-cid-657w5j3a><div class="form-grid" data-astro-cid-657w5j3a><div class="field" data-astro-cid-657w5j3a><label for="first-name" data-astro-cid-657w5j3a>Vorname <span data-astro-cid-657w5j3a>(erforderlich)</span></label><input id="first-name" name="vorname" type="text" autocomplete="given-name" required data-astro-cid-657w5j3a></div><div class="field" data-astro-cid-657w5j3a><label for="last-name" data-astro-cid-657w5j3a>Nachname <span data-astro-cid-657w5j3a>(erforderlich)</span></label><input id="last-name" name="nachname" type="text" autocomplete="family-name" required data-astro-cid-657w5j3a></div><div class="field field-wide" data-astro-cid-657w5j3a><label for="phone" data-astro-cid-657w5j3a>Handy</label><input id="phone" name="handy" type="tel" autocomplete="tel" data-astro-cid-657w5j3a></div><div class="field field-wide" data-astro-cid-657w5j3a><label for="email" data-astro-cid-657w5j3a>E-Mail <span data-astro-cid-657w5j3a>(erforderlich)</span></label><input id="email" name="email" type="email" autocomplete="email" required data-astro-cid-657w5j3a></div><div class="field field-wide" data-astro-cid-657w5j3a><label for="message" data-astro-cid-657w5j3a>Nachricht <span data-astro-cid-657w5j3a>(erforderlich)</span></label><textarea id="message" name="nachricht" rows="6" required data-astro-cid-657w5j3a></textarea></div></div><button type="submit" data-astro-cid-657w5j3a>Senden <span aria-hidden="true" data-astro-cid-657w5j3a>↗</span></button></fieldset></form></div></div></section></main><!-- layout:footer --><script>
-			const contactForm = document.querySelector('#contact-form');
-			const formStatus = document.querySelector('#form-status');
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="Anfahrt und Kontakt zur Ortsgruppe Pyrbaum e. V. des Vereins für Deutsche Schäferhunde."
+    />
+    <meta name="theme-color" content="#f6f5f0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Kontakt &amp; Anfahrt – Hundesport Pyrbaum</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <!-- layout:footer-style -->
+    <link rel="stylesheet" href="/kontakt/kontakt.css" />
+  </head>
+  <body>
+    <!-- layout:header -->
+    <main>
+      <section class="directions" aria-labelledby="directions-title">
+        <div class="section-inner">
+          <p class="eyebrow"><span></span> ANFAHRT &amp; KONTAKT</p>
+          <h1 id="directions-title">So findet <em>ihr uns.</em></h1>
+          <p class="intro">
+            Wir freuen uns auf euch und eure Vierbeiner in Pyrbaum.
+          </p>
+          <div class="map-placeholder">
+            <span class="map-icon" aria-hidden="true">⌖</span
+            ><strong>Hier findet ihr bald die Anfahrt.</strong
+            ><span>Eine Karte wird später ergänzt.</span>
+          </div>
+        </div>
+      </section>
+      <section class="contact" aria-labelledby="contact-title">
+        <div class="section-inner contact-layout">
+          <div class="contact-intro">
+            <p class="eyebrow"><span></span> SCHREIBT UNS</p>
+            <h2 id="contact-title">Wir freuen uns<br />auf <em>euch.</em></h2>
+            <p>
+              Ihr habt Fragen zu unserem Verein oder möchtet beim Training
+              vorbeischauen? Nehmt gerne Kontakt mit uns auf.
+            </p>
+            <p class="contact-note">
+              Mit dem Formular öffnet ihr euren E-Mail-Anbieter mit einer
+              vorbefüllten Nachricht. Die Nachricht wird erst versendet, wenn
+              ihr sie dort bestätigt.
+            </p>
+            <a class="contact-link" href="mailto:svog-pyrbaum@web.de"
+              >Direkt per E-Mail schreiben <span aria-hidden="true">↗</span></a
+            >
+          </div>
+          <div class="form-card">
+            <h3>Kontakt</h3>
+            <p id="form-status">
+              Alle Felder mit <strong>(erforderlich)</strong> müssen ausgefüllt
+              werden.
+            </p>
+            <form
+              id="contact-form"
+              aria-describedby="form-status"
+              action="mailto:svog-pyrbaum@web.de"
+              method="post"
+              enctype="text/plain"
+            >
+              <fieldset>
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="first-name"
+                      >Vorname <span>(erforderlich)</span></label
+                    ><input
+                      id="first-name"
+                      name="vorname"
+                      type="text"
+                      autocomplete="given-name"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="last-name"
+                      >Nachname <span>(erforderlich)</span></label
+                    ><input
+                      id="last-name"
+                      name="nachname"
+                      type="text"
+                      autocomplete="family-name"
+                      required
+                    />
+                  </div>
+                  <div class="field field-wide">
+                    <label for="phone">Handy</label
+                    ><input
+                      id="phone"
+                      name="handy"
+                      type="tel"
+                      autocomplete="tel"
+                    />
+                  </div>
+                  <div class="field field-wide">
+                    <label for="email">E-Mail <span>(erforderlich)</span></label
+                    ><input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autocomplete="email"
+                      required
+                    />
+                  </div>
+                  <div class="field field-wide">
+                    <label for="message"
+                      >Nachricht <span>(erforderlich)</span></label
+                    ><textarea
+                      id="message"
+                      name="nachricht"
+                      rows="6"
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <button type="submit">
+                  Senden <span aria-hidden="true">↗</span>
+                </button>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- layout:footer -->
+    <script>
+      const contactForm = document.querySelector("#contact-form");
+      const formStatus = document.querySelector("#form-status");
 
-			contactForm?.addEventListener('submit', (event) => {
-				event.preventDefault();
+      contactForm?.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-				const formData = new FormData(contactForm);
-				const vorname = String(formData.get('vorname') ?? '').trim();
-				const nachname = String(formData.get('nachname') ?? '').trim();
-				const handy = String(formData.get('handy') ?? '').trim();
-				const email = String(formData.get('email') ?? '').trim();
-				const nachricht = String(formData.get('nachricht') ?? '').trim();
+        const formData = new FormData(contactForm);
+        const vorname = String(formData.get("vorname") ?? "").trim();
+        const nachname = String(formData.get("nachname") ?? "").trim();
+        const handy = String(formData.get("handy") ?? "").trim();
+        const email = String(formData.get("email") ?? "").trim();
+        const nachricht = String(formData.get("nachricht") ?? "").trim();
 
-				const subject = encodeURIComponent(`Kontaktanfrage von ${vorname} ${nachname}`);
-				const body = encodeURIComponent([
-					nachricht,
-					'',
-					`Name: ${vorname} ${nachname}`,
-					`E-Mail: ${email}`,
-					handy ? `Handy: ${handy}` : '',
-				].filter(Boolean).join('\n'));
+        const subject = encodeURIComponent(
+          `Kontaktanfrage von ${vorname} ${nachname}`,
+        );
+        const body = encodeURIComponent(
+          [
+            nachricht,
+            "",
+            `Name: ${vorname} ${nachname}`,
+            `E-Mail: ${email}`,
+            handy ? `Handy: ${handy}` : "",
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        );
 
-				formStatus.textContent = 'Ihr E-Mail-Anbieter wird geöffnet. Die Nachricht wird erst nach Ihrer Bestätigung versendet.';
-				window.location.href = `mailto:svog-pyrbaum@web.de?subject=${subject}&body=${body}`;
-			});
-		</script></body></html>
+        formStatus.textContent =
+          "Ihr E-Mail-Anbieter wird geöffnet. Die Nachricht wird erst nach Ihrer Bestätigung versendet.";
+        window.location.href = `mailto:svog-pyrbaum@web.de?subject=${subject}&body=${body}`;
+      });
+    </script>
+  </body>
+</html>

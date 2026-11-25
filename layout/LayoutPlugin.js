@@ -28,27 +28,21 @@ function renderTemplate(template, values, filename) {
 }
 
 function renderPage(page, content, templates) {
-  const scope = content.match(/<body\s+(data-astro-cid-[a-z0-9]+)/);
-  if (!scope) throw new Error(`${page}: missing page style scope`);
-
   const isHome = page === 'index.html';
   const isContact = page === 'kontakt/index.html';
   const isLegal = page === 'impressum/index.html' || page === 'datenschutz/index.html';
   const ctaHref = isContact ? '/' : '/kontakt';
   const ctaText = isContact ? 'Zur Startseite' : 'Kontakt';
-  const logo = (scopeAttribute) =>
-    renderTemplate(templates.logo, { scope: scopeAttribute }, 'layout/logo.html');
   const header = renderTemplate(templates.header, {
-    scope: scope[1],
-    logo: isLegal ? '' : logo(scope[1]),
+    logo: isLegal ? '' : templates.logo,
     homeHref: isHome ? '#start' : '/',
     navPrefix: isHome ? '' : '/',
-    newsLink: isHome ? `<a href="#news" ${scope[1]}>News</a>` : '',
+    newsLink: isHome ? '<a href="#news">News</a>' : '',
     ctaHref,
     ctaText: isContact ? 'Zur Startseite' : 'Kontakt aufnehmen',
   }, 'layout/header.html');
   const footer = renderTemplate(templates.footer, {
-    logo: logo('data-astro-cid-nns7i3if'),
+    logo: templates.logo,
     homeHref: isHome ? '#start' : '/',
     homeLabel: isHome ? 'Zurück nach oben' : 'Zurück zur Startseite',
     ctaHref,
