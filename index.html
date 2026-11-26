@@ -76,7 +76,7 @@
       <section class="offer section-wrap" id="angebot">
         <div class="section-heading">
           <div>
-            <p class="eyebrow eyebrow-dark"><span></span> UNSER ANGEBOT</p>
+            <p class="eyebrow eyebrow-dark"><span></span> UNSER SPORT</p>
             <h2>Finde euren <em>Flow.</em></h2>
           </div>
           <p class="section-heading-copy">
@@ -112,7 +112,7 @@
               Fährtenarbeit und Unterordnung: vielseitiges Training, das
               Konzentration und Teamgefühl stärkt.
             </p>
-            <a href="/igp" aria-label="Mehr über IGP erfahren"
+            <a href="/igp" data-sport-dialog="IGP" aria-label="Mehr über IGP erfahren"
               >Mehr erfahren <span aria-hidden="true">↗</span></a
             >
           </article>
@@ -143,6 +143,7 @@
             </p>
             <a
               href="/rally-obedience"
+              data-sport-dialog="Rally Obedience"
               aria-label="Mehr über Rally Obedience erfahren"
               >Mehr erfahren <span aria-hidden="true">↗</span></a
             >
@@ -397,5 +398,15 @@
       </section>
     </main>
     <!-- layout:footer -->
+    <dialog class="sport-dialog" aria-labelledby="sport-dialog-title">
+      <div class="sport-dialog-header">
+        <h2 id="sport-dialog-title"></h2>
+        <button type="button" class="sport-dialog-close" aria-label="Dialog schließen" autofocus>
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <iframe class="sport-dialog-content" title="Informationen zur Sportart"></iframe>
+    </dialog>
+    <script src="/js/sport-dialog.js" defer></script>
   </body>
 </html>

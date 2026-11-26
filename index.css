@@ -695,3 +695,65 @@ h2 em {
   outline: 3px solid #829b3f;
   outline-offset: 4px;
 }
+
+body.sport-dialog-open {
+  overflow: hidden;
+}
+.sport-dialog {
+  width: min(1000px, 75vw);
+  height: min(900px, 75dvh);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 20px 60px #0005;
+}
+.sport-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.sport-dialog::backdrop {
+  background: rgb(20 27 22 / 70%);
+}
+.sport-dialog-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 16px 8px 24px;
+}
+.sport-dialog-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+.sport-dialog-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 1;
+}
+.sport-dialog-close:focus-visible {
+  outline: 2px solid #829b3f;
+  outline-offset: -2px;
+}
+.sport-dialog-content {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+}
+@media (width<=760px) {
+  .sport-dialog {
+    width: 90vw;
+  }
+}

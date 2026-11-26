@@ -4,7 +4,7 @@ const { pages, renderPage } = require('../layout/render');
 
 const root = path.resolve(__dirname, '..');
 const pageDirectories = pages.slice(1).map((page) => page.split('/')[0]);
-const directories = [...pageDirectories, 'images', 'css', 'js/vendor'];
+const directories = [...pageDirectories, 'images', 'css', 'js'];
 const files = [
   'index.css', 'icon.svg', 'favicon.ico', 'favicon.svg', 'robots.txt',
   'icon.png', '404.html', 'site.webmanifest',

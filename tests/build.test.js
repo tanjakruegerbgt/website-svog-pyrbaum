@@ -23,6 +23,8 @@ test('builds and serves the static site, including updates', async (t) => {
   build();
   assert.equal(fs.existsSync(path.join(output, 'stale.txt')), false);
   assert.equal(fs.existsSync(path.join(output, 'js', 'app.js')), false);
+  assert.equal(fs.readFileSync(path.join(output, 'js', 'sport-dialog.js'), 'utf8'),
+    fs.readFileSync(path.join(fixture, 'js', 'sport-dialog.js'), 'utf8'));
   assert.deepEqual(fs.readFileSync(path.join(output, 'images', 'hunde-im-herbstlaub.png')),
     fs.readFileSync(path.join(fixture, 'images', 'hunde-im-herbstlaub.png')));
   const { pages, renderPage } = require(path.join(fixture, 'layout', 'render'));
@@ -54,6 +56,7 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.match(await page.text(), /<header\b/);
   assert.equal((await fetch(`${base}/kontakt/`)).status, 200);
   assert.equal((await fetch(`${base}/css/base.css`)).status, 200);
+  assert.equal((await fetch(`${base}/js/sport-dialog.js`)).status, 200);
   assert.equal((await fetch(`${base}/not-found`)).status, 404);
   assert.equal((await fetch(`${base}/package.json`)).status, 404);
   assert.equal((await fetch(`${base}/kontakt`, { method: 'HEAD' })).status, 200);
