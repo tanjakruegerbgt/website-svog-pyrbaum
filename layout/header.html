@@ -1,0 +1,28 @@
+<header class="site-header">
+  <div class="brand-identity">
+    <a class="brand" href="{{homeHref}}" aria-label="Ortsgruppe Pyrbaum e. V. – Startseite">
+      {{logo}}
+      <span class="brand-copy">
+        <span class="brand-association">Verein für dt. Schäferhunde</span>
+        <span class="brand-local"><strong>Ortsgruppe Pyrbaum e. V.</strong></span>
+      </span>
+    </a>
+    <span class="brand-stamp"><span>seit</span> <span>1984</span></span>
+  </div>
+  <details class="site-menu">
+    <summary aria-label="Menü">
+      <svg class="menu-icon" viewBox="0 0 22 15.2" fill="none" aria-hidden="true">
+        <path d="M1.2 1.2h19.6M1.2 7.6h19.6M1.2 14h19.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path>
+      </svg>
+    </summary>
+    <nav id="site-navigation" aria-label="Hauptnavigation">
+      <a href="{{navPrefix}}#angebot">Unser Sport</a>
+      <a href="{{navPrefix}}#verein">Der Verein</a>
+      <a href="{{navPrefix}}#training">Trainingszeiten</a>
+      <a href="{{newsHref}}">News</a>
+      <a href="/impressum"{{imprintCurrent}} data-imprint-dialog>Impressum</a>
+      <a href="/datenschutz"{{privacyCurrent}} data-privacy-dialog>Datenschutz</a>
+    </nav>
+  </details>
+  <a class="header-cta" href="{{ctaHref}}">{{ctaText}}</a>
+</header>

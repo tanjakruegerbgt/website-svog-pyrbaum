@@ -1,19 +1,33 @@
-# Vereinswebsite für Hundesport Pyrbaum (Verein für dt. Schäferhunde der Ortsgruppe Pyrbaum e. V.)
+# Hundesport Pyrbaum
 
-Statische HTML-Version der Website. Die komplette Website liegt größtenteils als eine einzige `index.html` vor und kann direkt mit einem Webserver bereitgestellt werden.
+Statische HTML-Version der Website Verein für dt. Schäferhunde Ortsgruppe Pyrbaum e. V.
 
-## Bewusst einfache Umsetzung
-
-Das Projekt wurde gezielt einfach und schlank gehalten. Ziel war es, eine übersichtliche, funktionale und pflegeleichte Website ohne unnötige technische Komplexität zu erstellen.
-
-Auf ein umfangreiches Framework, ein Content-Management-System oder eine separate Backend-Infrastruktur wurde bewusst verzichtet. Stattdessen kommen einfache Webtechnologien zum Einsatz. Dadurch bleibt das Projekt leicht verständlich, schnell ladbar und unkompliziert zu warten.
-
-Die reduzierte Architektur ist eine bewusste Entscheidung und keine technische Einschränkung. Änderungen und Ergänzungen können direkt an den vorhandenen Dateien vorgenommen werden, ohne zusätzliche Abhängigkeiten oder komplexe Entwicklungsprozesse.
+Der Build erstellt die fertigen HTML-Dateien für den Webserver.
 
 ## Entwicklung und Veröffentlichung
 
-Nach `npm install` startet `npm start` den lokalen Entwicklungsserver. `npm run build` erstellt die veröffentlichungsfertige Website in `dist`. Der Webserver muss die Dateien im Ordner `dist` bereitstellen.
+Voraussetzung ist Node.js ab Version 18.17; zusätzliche npm-Pakete werden nicht
+benötigt. `npm start` erstellt die Website und startet den lokalen
+Entwicklungsserver unter `http://localhost:8080`. Mit der Umgebungsvariable
+`PORT` lässt sich ein anderer Port wählen. Nach Änderungen an den Quelldateien
+wird die Website neu erstellt und die geöffnete Seite automatisch aktualisiert.
+Der Browser wird nicht automatisch geöffnet.
 
-Alle Bereiche (Sportarten, Kontakt, Impressum und Datenschutz) sind als Abschnitte in `index.html` enthalten und über Anker erreichbar. Die Styles sind direkt in die HTML-Datei eingebettet, Bilder liegen weiterhin in `images`. Neue Meldungen werden direkt im News-Bereich ergänzt.
+`npm run build` erstellt die veröffentlichungsfertige Website in `dist` und
+ersetzt dabei dessen bisherigen Inhalt. `npm test` führt die Tests aus.
+CSS und die 404-Seite werden dabei unverändert kopiert und nicht minifiziert.
+Der Webserver muss Verzeichnis-URLs wie `/kontakt` auf die jeweilige
+`index.html` auflösen und die Dateien im Ordner `dist` bereitstellen.
 
-Das Kontaktformular öffnet das lokale E-Mail-Programm; die Nachricht wird erst dort nach Bestätigung versendet. Es gibt keinen Formular-Backenddienst.
+Die Startseite liegt in `index.html`, die Unterseiten liegen jeweils in einem
+eigenen Verzeichnis. Die zugehörigen Stylesheets liegen neben den jeweiligen
+HTML-Dateien, die Bilder in `images`. `css/base.css` enthält gemeinsame
+Grund- und Header-Stile; die Stylesheets neben den Seiten enthalten deren
+seitenspezifische Regeln. Gemeinsame Kopf- und Fußzeile, Logo und Footer-Stile
+liegen in `layout` und werden beim Build in die Seiten eingesetzt.
+Die HTML-Dateien im Projekt sind Vorlagen und müssen über `npm start` oder nach
+`npm run build` aus `dist` bereitgestellt werden. Neue Meldungen werden direkt
+im News-Bereich der Startseite ergänzt.
+
+Das Kontaktformular öffnet das lokale E-Mail-Programm; die Nachricht wird erst
+dort nach Bestätigung versendet. Es gibt keinen Formular-Backenddienst.
