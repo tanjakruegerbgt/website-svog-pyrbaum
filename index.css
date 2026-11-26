@@ -172,25 +172,13 @@ h2 em {
   padding-right: 11.2%;
 }
 .intro {
-  grid-template-columns: 0.8fr 1.5fr;
+  grid-template-columns: 1fr;
   align-items: start;
-  gap: 60px;
   min-height: 375px;
   padding-top: 100px;
   padding-bottom: 86px;
   display: grid;
   position: relative;
-}
-.intro-label {
-  color: #85877c;
-  letter-spacing: 0.16em;
-  padding-top: 12px;
-  font-size: 9px;
-  font-weight: 700;
-}
-.intro-label span {
-  color: #a4b95d;
-  margin-right: 14px;
 }
 .intro-main {
   max-width: 590px;
@@ -604,9 +592,6 @@ h2 em {
     min-height: auto;
     padding-top: 66px;
     padding-bottom: 80px;
-  }
-  .intro-label {
-    padding: 0;
   }
   .intro h2,
   .section-heading h2 {
