@@ -29,7 +29,7 @@
 }
 .hero-image {
   object-fit: cover;
-  object-position: center 47%;
+  object-position: right 47%;
 }
 .hero-shade {
   background:
@@ -554,7 +554,7 @@ h2 em {
     min-height: min(720px, 100svh - 72px);
   }
   .hero-image {
-    object-position: 58% center;
+    object-position: calc(100% + clamp(0px, calc(760px - 100vw), 100px)) 47%;
   }
   .hero-shade {
     background:
