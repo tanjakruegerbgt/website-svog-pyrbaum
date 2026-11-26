@@ -65,47 +65,101 @@ main a {
 }
 
 .site-header .brand-copy strong {
-  letter-spacing: -0.025em;
-  font-size: 13px;
+  letter-spacing: -0.035em;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
 }
 
-.site-header .brand-copy > span {
+.site-header .brand-association {
   color: var(--muted);
-  letter-spacing: 0.04em;
-  font-size: 10px;
+  letter-spacing: -0.035em;
+  font-size: 15px;
 }
 
-.site-header nav {
-  align-items: center;
-  gap: clamp(20px, 3.5vw, 52px);
-  display: flex;
+.site-header .brand-local {
+  white-space: nowrap;
 }
 
-.site-header nav a,
+.site-header .brand-copy small {
+  color: var(--muted);
+  margin-left: 8px;
+  font-size: 8px;
+}
+
+.site-menu {
+  position: relative;
+  order: 1;
+}
+
+.site-menu summary {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 2px;
+  cursor: pointer;
+  list-style: none;
+  place-items: center;
+  display: grid;
+}
+
+.site-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-menu summary:focus-visible {
+  outline-offset: 3px;
+  outline: 2px solid #829b3f;
+}
+
+.menu-icon {
+  width: 22px;
+  height: 15.2px;
+  color: #1c2748;
+  display: block;
+}
+
+.site-menu nav {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 210px;
+  padding: 7px;
+  border: 1px solid #e3e5dc;
+  background: var(--paper);
+  box-shadow: 0 10px 24px rgb(29 41 34 / 12%);
+  display: grid;
+}
+
+.site-menu nav a,
 .header-cta {
   font-size: 11px;
   font-weight: 600;
 }
 
-.site-header nav a {
+.site-menu nav a {
+  min-height: 42px;
+  padding: 0 12px;
+  align-items: center;
   color: #51584f;
+  display: flex;
 }
 
-.site-header nav a:hover {
+.site-menu nav a:hover {
   color: #687e31;
+  background: #eeeee7;
 }
 
 .header-cta {
-  border: 1px solid #d5d7cf;
+  margin-left: auto;
+  border: 0;
   border-radius: 2px;
   align-items: center;
   gap: 15px;
   padding: 13px 17px;
+  font-size: 13px;
   display: inline-flex;
-}
-
-.header-cta span {
-  font-size: 15px;
 }
 
 @media (width <= 760px) {
@@ -121,21 +175,33 @@ main a {
   }
 
   .site-header .brand-copy strong {
-    font-size: 11px;
+    font-size: 12px;
   }
 
-  .site-header .brand-copy > span {
-    font-size: 8px;
+  .site-header .brand-association {
+    font-size: 12px;
   }
 
-  .site-header nav {
-    display: none;
+  .site-header .brand-copy small {
+    font-size: 7px;
   }
 
   .header-cta {
     white-space: nowrap;
     gap: 8px;
     padding: 11px 10px;
-    font-size: 9px;
+    font-size: 11px;
+  }
+}
+
+@media (width <= 480px) {
+  .site-header {
+    flex-wrap: wrap;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .site-header .brand {
+    flex-basis: 100%;
   }
 }

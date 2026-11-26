@@ -34,9 +34,11 @@ function renderPage(page, content, templates) {
     logo: isLegal ? '' : templates.logo,
     homeHref: isHome ? '#start' : '/',
     navPrefix: isHome ? '' : '/',
-    newsLink: isHome ? '<a href="#news">News</a>' : '',
+    newsHref: isHome ? '#news' : '/#news',
     ctaHref,
-    ctaText: isContact ? 'Zur Startseite' : 'Kontakt aufnehmen',
+    ctaText: isContact ? 'Zur Startseite' : 'Kontakt',
+    imprintCurrent: page === 'impressum/index.html' ? ' aria-current="page"' : '',
+    privacyCurrent: page === 'datenschutz/index.html' ? ' aria-current="page"' : '',
   }, 'layout/header.html');
   const footer = renderTemplate(templates.footer, {
     logo: templates.logo,

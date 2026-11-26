@@ -32,13 +32,17 @@
   display: grid;
 }
 .site-footer .brand-copy strong {
-  letter-spacing: -0.025em;
-  font-size: 13px;
+  letter-spacing: -0.035em;
+  font-size: 15px;
+  font-weight: 700;
 }
 .site-footer .brand-copy > span {
   color: #6d746a;
-  letter-spacing: 0.04em;
-  font-size: 10px;
+  font-size: 9px;
+}
+.site-footer .brand-copy small {
+  color: #6d746a;
+  font-size: 8px;
 }
 .footer-identity p {
   color: #6d746a;

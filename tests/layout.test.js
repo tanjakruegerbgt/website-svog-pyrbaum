@@ -31,10 +31,20 @@ for (const page of pages) {
     assert.ok(output.includes(`<style>${templates.footerStyle}</style>`));
     assert.match(header, new RegExp(`href="${isHome ? '#start' : '/'}"`));
     assert.equal(header.includes('class="brand-mark"'), !isLegal);
-    assert.equal(header.includes('>News</a>'), isHome);
-    assert.ok(header.includes(isContact ? '>Zur Startseite ' : '>Kontakt aufnehmen '));
+    assert.match(header, /<details class="site-menu">[\s\S]*<nav id="site-navigation"/);
+    assert.match(header, /<svg class="menu-icon"[^>]*aria-hidden="true">[\s\S]*stroke-linecap="round"[\s\S]*<\/svg>/);
+    for (const label of ['Unser Sport', 'Der Verein', 'Trainingszeiten', 'News', 'Impressum', 'Datenschutz']) {
+      assert.ok(header.includes(`>${label}</a>`));
+    }
+    assert.ok(header.includes(isHome ? 'href="#news"' : 'href="/#news"'));
+    assert.match(header, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong> <small>seit 1984<\/small><\/span>/);
+    assert.ok(header.includes(isContact ? '>Zur Startseite</a>' : '>Kontakt</a>'));
+    assert.equal(header.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
+    assert.equal(header.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(footer.includes(isHome ? 'aria-label="Zurück nach oben"' : 'aria-label="Zurück zur Startseite"'));
     assert.ok(footer.includes(isContact ? '>Zur Startseite ' : '>Kontakt '));
+    assert.ok(footer.includes('<strong>Ortsgruppe Pyrbaum e. V.</strong>'));
+    assert.ok(footer.includes('<small>seit 1984</small>'));
     assert.equal(footer.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(footer.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(output.includes(source.match(/<main\b[\s\S]*?<\/main>/)[0]));
