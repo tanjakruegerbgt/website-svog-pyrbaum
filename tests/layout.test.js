@@ -43,8 +43,7 @@ for (const page of pages) {
     assert.equal(header.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(footer.includes(isHome ? 'aria-label="Zurück nach oben"' : 'aria-label="Zurück zur Startseite"'));
     assert.ok(footer.includes(isContact ? '>Zur Startseite ' : '>Kontakt '));
-    assert.ok(footer.includes('<strong>Ortsgruppe Pyrbaum e. V.</strong>'));
-    assert.ok(footer.includes('<small>seit 1984</small>'));
+    assert.match(footer, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong> <small>seit 1984<\/small><\/span>/);
     assert.equal(footer.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(footer.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(output.includes(source.match(/<main\b[\s\S]*?<\/main>/)[0]));

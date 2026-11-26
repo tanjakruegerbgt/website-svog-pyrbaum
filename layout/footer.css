@@ -35,20 +35,20 @@
   letter-spacing: -0.035em;
   font-size: 15px;
   font-weight: 700;
+  color: #000;
 }
-.site-footer .brand-copy > span {
-  color: #6d746a;
-  font-size: 9px;
+.site-footer .brand-association {
+  color: var(--muted);
+  letter-spacing: -0.035em;
+  font-size: 15px;
+}
+.site-footer .brand-local {
+  white-space: nowrap;
 }
 .site-footer .brand-copy small {
-  color: #6d746a;
+  color: var(--muted);
+  margin-left: 8px;
   font-size: 8px;
-}
-.footer-identity p {
-  color: #6d746a;
-  margin: 10px 0 0 51px;
-  font-size: 11px;
-  line-height: 1.5;
 }
 .footer-links {
   flex-wrap: wrap;
@@ -92,5 +92,16 @@
   }
   .footer-links {
     gap: 2px 20px;
+  }
+  .site-footer .brand-mark {
+    width: 34px;
+    height: 34px;
+  }
+  .site-footer .brand-copy strong,
+  .site-footer .brand-association {
+    font-size: 12px;
+  }
+  .site-footer .brand-copy small {
+    font-size: 7px;
   }
 }
