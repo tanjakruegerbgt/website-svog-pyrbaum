@@ -75,6 +75,46 @@ test('shared and page styles do not depend on generated Astro scopes', () => {
   }
 });
 
+test('sport dialog has an initial heading and links retain their visible labels', () => {
+  const html = read('index.html');
+  assert.match(html, /<h2 id="sport-dialog-title">Informationen zum Hundesport<\/h2>/);
+  for (const sport of ['IGP', 'Rally Obedience']) {
+    assert.match(html, new RegExp(`data-sport-dialog="${sport}"\\s+aria-label="Mehr erfahren über ${sport}"\\s*>Mehr erfahren`));
+  }
+});
+
+test('sport dialog uses the selected sport as its heading', () => {
+  const heading = {};
+  const frame = { addEventListener() {} };
+  const closeButton = { addEventListener() {} };
+  const dialog = { showModal() { this.open = true; }, addEventListener() {} };
+  const links = ['IGP', 'Rally Obedience'].map((sport) => ({
+    dataset: { sportDialog: sport },
+    href: `/${sport}`,
+    addEventListener(type, listener) { this.click = listener; },
+  }));
+  const elements = {
+    '.sport-dialog': dialog,
+    '#sport-dialog-title': heading,
+    '.sport-dialog-content': frame,
+    '.sport-dialog-close': closeButton,
+  };
+  const document = {
+    querySelector: (selector) => elements[selector],
+    querySelectorAll: () => links,
+    body: { classList: { add() {} } },
+  };
+  vm.runInNewContext(read('js/sport-dialog.js'), { document });
+  for (const link of links) {
+    let prevented = false;
+    link.click({ button: 0, preventDefault() { prevented = true; } });
+    assert.ok(prevented);
+    assert.equal(heading.textContent, link.dataset.sportDialog);
+    assert.equal(frame.src, link.href);
+    assert.equal(dialog.open, true);
+  }
+});
+
 test('contact form opens an encoded email draft', () => {
   const html = read('kontakt/index.html');
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
