@@ -1,7 +1,8 @@
 # Hundesport Pyrbaum
 
-Statische HTML-Version der Website aus dem Astro-Projekt. Die Seiten sind
-unabhängig von Astro; der Build erstellt die fertigen HTML-Dateien für den Webserver.
+Statische HTML-Version der Website Verein für dt. Schäferhunde Ortsgruppe Pyrbaum e. V.
+
+Der Build erstellt die fertigen HTML-Dateien für den Webserver.
 
 ## Entwicklung und Veröffentlichung
 
