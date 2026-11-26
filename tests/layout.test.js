@@ -50,6 +50,8 @@ for (const page of pages) {
     assert.equal(footer.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.match(header, /href="\/impressum"[^>]*data-imprint-dialog/);
     assert.match(footer, /href="\/impressum"[^>]*data-imprint-dialog/);
+    assert.match(header, /href="\/datenschutz"[^>]*data-privacy-dialog/);
+    assert.match(footer, /href="\/datenschutz"[^>]*data-privacy-dialog/);
     assert.match(output, /<dialog class="imprint-dialog" aria-labelledby="imprint-dialog-title">/);
     assert.match(output, /<script src="\/js\/imprint-dialog\.js" defer><\/script>/);
     assert.ok(output.includes(source.match(/<main\b[\s\S]*?<\/main>/)[0]));
@@ -121,9 +123,10 @@ test('sport dialog uses the selected sport as its heading', () => {
   }
 });
 
-test('imprint links open and close a modal while preserving modified clicks', () => {
+test('legal links open and close a modal while preserving modified clicks', () => {
   const handlers = {};
   const bodyClasses = new Set();
+  const heading = {};
   const frame = {
     addEventListener(type, listener) { handlers.frame = listener; },
     removeAttribute(name) { assert.equal(name, 'src'); delete this.src; },
@@ -134,18 +137,23 @@ test('imprint links open and close a modal while preserving modified clicks', ()
     close() { this.open = false; handlers.close(); },
     addEventListener(type, listener) { handlers[type] = listener; },
   };
-  const links = Array.from({ length: 2 }, () => ({
-    href: 'https://example.org/impressum',
+  const links = ['Impressum', 'Impressum', 'Datenschutz', 'Datenschutz'].map((title) => ({
+    href: `https://example.org/${title.toLowerCase()}`,
+    textContent: title,
     addEventListener(type, listener) { this.click = listener; },
   }));
   const elements = {
     '.imprint-dialog': dialog,
+    '#imprint-dialog-title': heading,
     '.imprint-dialog-content': frame,
     '.imprint-dialog-close': closeButton,
   };
   const document = {
     querySelector: (selector) => elements[selector],
-    querySelectorAll: () => links,
+    querySelectorAll: (selector) => {
+      assert.equal(selector, '[data-imprint-dialog], [data-privacy-dialog]');
+      return links;
+    },
     body: { classList: {
       add: (value) => bodyClasses.add(value),
       remove: (value) => bodyClasses.delete(value),
@@ -160,6 +168,8 @@ test('imprint links open and close a modal while preserving modified clicks', ()
     link.click({ button: 0, preventDefault() { prevented = true; } });
     assert.equal(prevented, true);
     assert.equal(frame.src, link.href);
+    assert.equal(heading.textContent, link.textContent);
+    assert.equal(frame.title, link.textContent);
     assert.equal(dialog.open, true);
     assert.equal(bodyClasses.has('imprint-dialog-open'), true);
 

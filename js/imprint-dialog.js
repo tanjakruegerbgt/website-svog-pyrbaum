@@ -1,11 +1,14 @@
 const imprintDialog = document.querySelector('.imprint-dialog');
+const imprintTitle = document.querySelector('#imprint-dialog-title');
 const imprintContent = document.querySelector('.imprint-dialog-content');
 const imprintClose = document.querySelector('.imprint-dialog-close');
 
-for (const link of document.querySelectorAll('[data-imprint-dialog]')) {
+for (const link of document.querySelectorAll('[data-imprint-dialog], [data-privacy-dialog]')) {
   link.addEventListener('click', (event) => {
     if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    imprintTitle.textContent = link.textContent.trim();
+    imprintContent.title = imprintTitle.textContent;
     imprintContent.src = link.href;
     imprintDialog.showModal();
     document.body.classList.add('imprint-dialog-open');
