@@ -45,11 +45,6 @@
 .site-footer .brand-local {
   white-space: nowrap;
 }
-.site-footer .brand-copy small {
-  color: var(--muted);
-  margin-left: 8px;
-  font-size: 8px;
-}
 .footer-links {
   flex-wrap: wrap;
   align-items: center;
@@ -100,8 +95,5 @@
   .site-footer .brand-copy strong,
   .site-footer .brand-association {
     font-size: 12px;
-  }
-  .site-footer .brand-copy small {
-    font-size: 7px;
   }
 }

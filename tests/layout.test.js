@@ -37,13 +37,15 @@ for (const page of pages) {
       assert.ok(header.includes(`>${label}</a>`));
     }
     assert.ok(header.includes(isHome ? 'href="#news"' : 'href="/#news"'));
-    assert.match(header, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong> <small>seit 1984<\/small><\/span>/);
+    assert.match(header, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong><\/span>/);
+    assert.match(header, /<span class="brand-stamp"><span>seit<\/span> <span>1984<\/span><\/span>/);
     assert.ok(header.includes(isContact ? '>Zur Startseite</a>' : '>Kontakt</a>'));
     assert.equal(header.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(header.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(footer.includes(isHome ? 'aria-label="Zurück nach oben"' : 'aria-label="Zurück zur Startseite"'));
     assert.ok(footer.includes(isContact ? '>Zur Startseite ' : '>Kontakt '));
-    assert.match(footer, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong> <small>seit 1984<\/small><\/span>/);
+    assert.match(footer, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong><\/span>/);
+    assert.match(footer, /<span class="brand-stamp"><span>seit<\/span> <span>1984<\/span><\/span>/);
     assert.equal(footer.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(footer.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
     assert.ok(output.includes(source.match(/<main\b[\s\S]*?<\/main>/)[0]));
