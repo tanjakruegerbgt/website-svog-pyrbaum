@@ -57,6 +57,7 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.equal((await fetch(`${base}/kontakt/`)).status, 200);
   assert.equal((await fetch(`${base}/css/base.css`)).status, 200);
   assert.equal((await fetch(`${base}/js/sport-dialog.js`)).status, 200);
+  assert.equal((await fetch(`${base}/js/imprint-dialog.js`)).status, 200);
   assert.equal((await fetch(`${base}/not-found`)).status, 404);
   assert.equal((await fetch(`${base}/package.json`)).status, 404);
   assert.equal((await fetch(`${base}/kontakt`, { method: 'HEAD' })).status, 200);

@@ -48,6 +48,10 @@ for (const page of pages) {
     assert.match(footer, /<span class="brand-stamp"><span>seit<\/span> <span>1984<\/span><\/span>/);
     assert.equal(footer.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(footer.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
+    assert.match(header, /href="\/impressum"[^>]*data-imprint-dialog/);
+    assert.match(footer, /href="\/impressum"[^>]*data-imprint-dialog/);
+    assert.match(output, /<dialog class="imprint-dialog" aria-labelledby="imprint-dialog-title">/);
+    assert.match(output, /<script src="\/js\/imprint-dialog\.js" defer><\/script>/);
     assert.ok(output.includes(source.match(/<main\b[\s\S]*?<\/main>/)[0]));
   });
 }
@@ -115,6 +119,71 @@ test('sport dialog uses the selected sport as its heading', () => {
     assert.equal(frame.src, link.href);
     assert.equal(dialog.open, true);
   }
+});
+
+test('imprint links open and close a modal while preserving modified clicks', () => {
+  const handlers = {};
+  const bodyClasses = new Set();
+  const frame = {
+    addEventListener(type, listener) { handlers.frame = listener; },
+    removeAttribute(name) { assert.equal(name, 'src'); delete this.src; },
+  };
+  const closeButton = { addEventListener(type, listener) { handlers.button = listener; } };
+  const dialog = {
+    showModal() { this.open = true; },
+    close() { this.open = false; handlers.close(); },
+    addEventListener(type, listener) { handlers[type] = listener; },
+  };
+  const links = Array.from({ length: 2 }, () => ({
+    href: 'https://example.org/impressum',
+    addEventListener(type, listener) { this.click = listener; },
+  }));
+  const elements = {
+    '.imprint-dialog': dialog,
+    '.imprint-dialog-content': frame,
+    '.imprint-dialog-close': closeButton,
+  };
+  const document = {
+    querySelector: (selector) => elements[selector],
+    querySelectorAll: () => links,
+    body: { classList: {
+      add: (value) => bodyClasses.add(value),
+      remove: (value) => bodyClasses.delete(value),
+    } },
+  };
+  vm.runInNewContext(read('js/imprint-dialog.js'), { document });
+  for (const link of links) {
+    let prevented = false;
+    link.click({ button: 0, ctrlKey: true, preventDefault() { prevented = true; } });
+    assert.equal(prevented, false);
+    assert.equal(dialog.open, undefined);
+    link.click({ button: 0, preventDefault() { prevented = true; } });
+    assert.equal(prevented, true);
+    assert.equal(frame.src, link.href);
+    assert.equal(dialog.open, true);
+    assert.equal(bodyClasses.has('imprint-dialog-open'), true);
+
+    const header = { style: {} };
+    const footer = { style: {} };
+    const contentLink = {};
+    let keydown;
+    frame.contentDocument = {
+      querySelectorAll: (selector) => selector === 'a' ? [contentLink] : [header, footer],
+      addEventListener: (type, listener) => { keydown = listener; },
+    };
+    handlers.frame();
+    assert.equal(header.style.display, 'none');
+    assert.equal(footer.style.display, 'none');
+    assert.equal(contentLink.target, '_top');
+    keydown({ key: 'Escape' });
+    assert.equal(dialog.open, false);
+    assert.equal(bodyClasses.has('imprint-dialog-open'), false);
+    assert.equal(frame.src, undefined);
+    delete dialog.open;
+  }
+  links[0].click({ button: 0, preventDefault() {} });
+  handlers.button();
+  assert.equal(dialog.open, false);
 });
 
 test('contact form opens an encoded email draft', () => {
