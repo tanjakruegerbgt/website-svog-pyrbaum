@@ -11,7 +11,17 @@ const files = [
 ];
 const inputs = [...pages, 'layout', ...directories, ...files];
 
-function build(output = path.join(root, 'dist')) {
+function addBasePath(content, basePath) {
+  const segments = basePath.split('/').filter(Boolean);
+  if (segments.length === 0) return content;
+  const prefix = `/${segments.join('/')}`;
+  return content.replace(
+    /(\b(?:href|src|action|poster|formaction)\s*=\s*["'])\/(?!\/)/gi,
+    (_match, attribute) => `${attribute}${prefix}/`,
+  );
+}
+
+function build(output = path.join(root, 'dist'), basePath = process.env.SITE_BASE_PATH || '') {
   const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
   const templates = {
     header: read('layout/header.html'),
@@ -41,7 +51,7 @@ function build(output = path.join(root, 'dist')) {
   for (const [page, content] of rendered) {
     const destination = path.join(output, page);
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, content);
+    fs.writeFileSync(destination, addBasePath(content, basePath));
   }
 }
 

@@ -18,6 +18,8 @@ ersetzt dabei dessen bisherigen Inhalt. `npm test` führt die Tests aus.
 CSS und die 404-Seite werden dabei unverändert kopiert und nicht minifiziert.
 Der Webserver muss Verzeichnis-URLs wie `/kontakt` auf die jeweilige
 `index.html` auflösen und die Dateien im Ordner `dist` bereitstellen.
+Für GitHub Pages setzt der Deployment-Workflow `SITE_BASE_PATH` automatisch,
+damit Seiten- und Asset-Pfade auch unter dem Repository-Unterpfad funktionieren.
 
 Die Startseite liegt in `index.html`, die Unterseiten liegen jeweils in einem
 eigenen Verzeichnis. Die zugehörigen Stylesheets liegen neben den jeweiligen
