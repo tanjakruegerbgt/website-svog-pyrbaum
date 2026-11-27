@@ -94,9 +94,10 @@ test('sport dialog has an initial heading and links retain their visible labels'
 });
 
 test('termine labels use the same presentation as other section labels', () => {
-  assert.match(read('index.html'), /<p class="eyebrow eyebrow-dark"><span aria-hidden="true"><\/span> TERMINE<\/p>/);
+  const home = read('index.html');
+  assert.match(home, /<div class="section-heading">\s*<div>\s*<p class="eyebrow eyebrow-dark"><span aria-hidden="true"><\/span> TERMINE<\/p>\s*<h2 id="events-title">Das steht <em>an\.<\/em><\/h2>\s*<\/div>\s*<p class="section-heading-copy">\s*Training, Veranstaltungen und Gelegenheiten zum Zusammensein\.\s*<\/p>\s*<\/div>/);
   assert.match(read('termine/index.html'), /<p class="events-eyebrow"><span aria-hidden="true"><\/span> TERMINE<\/p>/);
-  assert.match(read('index.html'), /<section class="events-section events-preview" id="termine"/);
+  assert.match(home, /<section class="events-section events-preview" id="termine"/);
   assert.match(read('termine/index.html'), /<section class="events-section events-page" id="termine"/);
 });
 
