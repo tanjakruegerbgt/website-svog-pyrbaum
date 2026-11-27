@@ -25,6 +25,11 @@ body {
   margin: 0;
 }
 
+.link-arrow {
+  font-size: 15px;
+  line-height: 1;
+}
+
 body.imprint-dialog-open {
   overflow: hidden;
 }

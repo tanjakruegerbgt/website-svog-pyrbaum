@@ -155,18 +155,6 @@ h2 em {
   color: var(--muted);
   font-size: 10px;
 }
-.hero-counter {
-  color: #fff;
-  letter-spacing: 0.1em;
-  font-size: 9px;
-  position: absolute;
-  top: 42px;
-  right: 6.2%;
-}
-.hero-counter span {
-  color: var(--lime);
-  margin: 0 9px;
-}
 .section-wrap {
   padding-left: 11.2%;
   padding-right: 11.2%;
@@ -578,10 +566,6 @@ h2 em {
     bottom: 25px;
     right: 5%;
   }
-  .hero-counter {
-    top: 23px;
-    right: 6%;
-  }
   .section-wrap {
     padding-left: 7%;
     padding-right: 7%;
@@ -701,6 +685,27 @@ body.sport-dialog-open {
 }
 body.events-dialog-open {
   overflow: hidden;
+}
+.events-preview .events-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 30px;
+}
+.events-preview .events-heading-row h2,
+.events-preview .events-heading-row .events-intro {
+  margin: 0;
+}
+.events-preview .events-heading-row .events-intro {
+  max-width: 420px;
+}
+@media (width<=760px) {
+  .events-preview .events-heading-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 .sport-dialog {
   width: min(1000px, 75vw);
