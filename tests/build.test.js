@@ -18,6 +18,7 @@ test('builds and serves the static site, including updates', async (t) => {
 
   const { build } = require(path.join(fixture, 'scripts', 'build'));
   const { renderNews } = require(path.join(fixture, 'scripts', 'news'));
+  const { renderEvents } = require(path.join(fixture, 'scripts', 'events'));
   const output = path.join(fixture, 'dist');
   fs.mkdirSync(output);
   fs.writeFileSync(path.join(output, 'stale.txt'), 'stale');
@@ -26,6 +27,8 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.equal(fs.existsSync(path.join(output, 'js', 'app.js')), false);
   assert.equal(fs.readFileSync(path.join(output, 'js', 'sport-dialog.js'), 'utf8'),
     fs.readFileSync(path.join(fixture, 'js', 'sport-dialog.js'), 'utf8'));
+  assert.equal(fs.readFileSync(path.join(output, 'js', 'events-dialog.js'), 'utf8'),
+    fs.readFileSync(path.join(fixture, 'js', 'events-dialog.js'), 'utf8'));
   assert.deepEqual(fs.readFileSync(path.join(output, 'images', 'hunde-im-herbstlaub.png')),
     fs.readFileSync(path.join(fixture, 'images', 'hunde-im-herbstlaub.png')));
   const { pages, renderPage } = require(path.join(fixture, 'layout', 'render'));
@@ -41,6 +44,14 @@ test('builds and serves the static site, including updates', async (t) => {
     if (page === 'index.html') {
       source = source.replace('<!-- news:articles -->',
         renderNews(JSON.parse(read('news.json'))));
+    }
+    if (page === 'index.html' || page === 'termine/index.html') {
+      source = source.replace('<!-- events:list -->',
+        renderEvents(JSON.parse(read('termine.json'))));
+    }
+    if (page === 'index.html') {
+      source = source.replace('<!-- events:dialog-list -->',
+        renderEvents(JSON.parse(read('termine.json'))));
     }
     assert.equal(fs.readFileSync(path.join(output, page), 'utf8'),
       renderPage(page, source, templates));
@@ -64,7 +75,11 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.equal((await fetch(`${base}/kontakt/`)).status, 200);
   assert.equal((await fetch(`${base}/css/base.css`)).status, 200);
   assert.equal((await fetch(`${base}/js/sport-dialog.js`)).status, 200);
+  assert.equal((await fetch(`${base}/js/events-dialog.js`)).status, 200);
   assert.equal((await fetch(`${base}/js/imprint-dialog.js`)).status, 200);
+  assert.equal((await fetch(`${base}/termine`)).status, 200);
+  assert.match(await (await fetch(`${base}/termine`)).text(), /Weihnachtsfeier/);
+  assert.equal((await fetch(`${base}/js/events.js`)).status, 200);
   assert.equal((await fetch(`${base}/not-found`)).status, 404);
   assert.equal((await fetch(`${base}/package.json`)).status, 404);
   assert.equal((await fetch(`${base}/kontakt`, { method: 'HEAD' })).status, 200);

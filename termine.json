@@ -1,0 +1,23 @@
+{
+  "training": {
+    "title": "Training",
+    "weekday": 3,
+    "time": "16:30–19:00 Uhr",
+    "location": "Trainingsplatz Pyrbaum",
+    "exceptions": []
+  },
+  "events": [
+    {
+      "title": "Weihnachtsfeier",
+      "date": "2026-12-12",
+      "details": "Beginn: 15:00 Uhr · Abendessen: 18:00 Uhr",
+      "location": "Ort folgt"
+    },
+    {
+      "title": "Jahreshauptversammlung",
+      "date": "2027-01-30",
+      "details": "Uhrzeit folgt",
+      "location": "Ort folgt"
+    }
+  ]
+}
