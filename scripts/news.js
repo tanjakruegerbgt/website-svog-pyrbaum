@@ -103,4 +103,4 @@ function renderNews(news) {
     : '<p class="news-empty">Aktuell gibt es keine Neuigkeiten.</p>';
 }
 
-module.exports = { renderNews };
+module.exports = { escapeHtml, renderNews };

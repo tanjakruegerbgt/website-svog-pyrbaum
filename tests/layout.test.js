@@ -33,15 +33,17 @@ for (const page of pages) {
     assert.equal(header.includes('class="brand-mark"'), !isLegal);
     assert.match(header, /<details class="site-menu">[\s\S]*<nav id="site-navigation"/);
     assert.match(header, /<svg class="menu-icon"[^>]*aria-hidden="true">[\s\S]*stroke-linecap="round"[\s\S]*<\/svg>/);
-    for (const label of ['Unser Sport', 'Der Verein', 'Trainingszeiten', 'News', 'Impressum', 'Datenschutz']) {
-      assert.ok(header.includes(`>${label}</a>`));
+    for (const label of ['Unser Sport', 'Der Verein', 'Trainingszeiten', 'Termine', 'News', 'Impressum', 'Datenschutz']) {
+      assert.match(header, new RegExp(`>${label}</a>`));
     }
     assert.ok(header.includes(isHome ? 'href="#news"' : 'href="/#news"'));
+    assert.ok(header.includes(isHome || page === 'termine/index.html' ? 'href="#termine"' : 'href="/#termine"'));
     assert.match(header, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong><\/span>/);
     assert.match(header, /<span class="brand-stamp"><span>seit<\/span> <span>1984<\/span><\/span>/);
     assert.ok(header.includes(isContact ? '>Zur Startseite</a>' : '>Kontakt</a>'));
     assert.equal(header.includes('href="/impressum" aria-current="page"'), page === 'impressum/index.html');
     assert.equal(header.includes('href="/datenschutz" aria-current="page"'), page === 'datenschutz/index.html');
+    assert.equal(header.includes('href="#termine" aria-current="page"'), page === 'termine/index.html');
     assert.ok(footer.includes(isHome ? 'aria-label="Zurück nach oben"' : 'aria-label="Zurück zur Startseite"'));
     assert.ok(footer.includes(isContact ? '>Zur Startseite ' : '>Kontakt '));
     assert.match(footer, /<span class="brand-association">Verein für dt\. Schäferhunde<\/span>\s*<span class="brand-local"><strong>Ortsgruppe Pyrbaum e\. V\.<\/strong><\/span>/);
@@ -91,6 +93,13 @@ test('sport dialog has an initial heading and links retain their visible labels'
   }
 });
 
+test('termine labels use the same presentation as other section labels', () => {
+  assert.match(read('index.html'), /<p class="eyebrow eyebrow-dark"><span aria-hidden="true"><\/span> TERMINE<\/p>/);
+  assert.match(read('termine/index.html'), /<p class="events-eyebrow"><span aria-hidden="true"><\/span> TERMINE<\/p>/);
+  assert.match(read('index.html'), /<section class="events-section events-preview" id="termine"/);
+  assert.match(read('termine/index.html'), /<section class="events-section events-page" id="termine"/);
+});
+
 test('sport dialog uses the selected sport as its heading', () => {
   const heading = {};
   const frame = { addEventListener() {} };
@@ -121,6 +130,48 @@ test('sport dialog uses the selected sport as its heading', () => {
     assert.equal(frame.src, link.href);
     assert.equal(dialog.open, true);
   }
+});
+
+test('modal scripts can load together without redeclaring global names', () => {
+  const scripts = ['js/sport-dialog.js', 'js/events-dialog.js'].map(read).join('\n');
+  assert.doesNotThrow(() => new vm.Script(scripts));
+});
+
+test('all events link opens the full events dialog and preserves modified clicks', () => {
+  const handlers = {};
+  const bodyClasses = new Set();
+  const closeButton = { addEventListener(type, listener) { handlers.button = listener; } };
+  const dialog = {
+    showModal() { this.open = true; },
+    close() { this.open = false; handlers.close(); },
+    addEventListener(type, listener) { handlers[type] = listener; },
+  };
+  const link = {
+    addEventListener(type, listener) { this.click = listener; },
+  };
+  const document = {
+    querySelector: (selector) => selector === '.events-dialog' ? dialog : closeButton,
+    querySelectorAll: (selector) => {
+      assert.equal(selector, '[data-events-dialog]');
+      return [link];
+    },
+    body: { classList: {
+      add: (value) => bodyClasses.add(value),
+      remove: (value) => bodyClasses.delete(value),
+    } },
+  };
+  vm.runInNewContext(read('js/events-dialog.js'), { document });
+  let prevented = false;
+  link.click({ button: 0, ctrlKey: true, preventDefault() { prevented = true; } });
+  assert.equal(prevented, false);
+  assert.equal(dialog.open, undefined);
+  link.click({ button: 0, preventDefault() { prevented = true; } });
+  assert.equal(prevented, true);
+  assert.equal(dialog.open, true);
+  assert.equal(bodyClasses.has('events-dialog-open'), true);
+  handlers.button();
+  assert.equal(dialog.open, false);
+  assert.equal(bodyClasses.has('events-dialog-open'), false);
 });
 
 test('legal links open and close a modal while preserving modified clicks', () => {

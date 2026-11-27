@@ -50,6 +50,33 @@ Jede `id` muss eindeutig und kleingeschrieben sein; für ein Bild zusätzlich
 Textblock mit `"type": "list"` und `"items": ["Eintrag 1", "Eintrag 2"]`
 verwendet werden.
 
+## Termine pflegen
+
+Öffentliche Termine stehen in `termine.json`. Im Objekt `training` bezeichnet
+`weekday` den Wochentag (0 = Sonntag bis 6 = Samstag). Trainingsausfälle
+werden als Datum im Format `YYYY-MM-DD` in `exceptions` eingetragen, z. B.
+`"exceptions": ["2026-12-23"]`. Die Daten müssen auf den Trainingstag fallen.
+Vergangene Ausfälle werden nicht mehr angezeigt.
+
+Einzelne Veranstaltungen werden unter `events` eingetragen:
+
+```json
+{
+  "title": "Sommerfest",
+  "date": "2027-07-10",
+  "details": "Beginn: 15:00 Uhr",
+  "location": "Trainingsplatz Pyrbaum"
+}
+```
+
+Nach Änderungen muss die Website neu gebaut und veröffentlicht werden.
+Beim Seitenaufruf werden Termine anhand des aktuellen Datums in der Zeitzone
+Europa/Berlin sortiert; Veranstaltungen bleiben einschließlich ihres
+Termintags sichtbar. Das Training erscheint einmal mit dem nächsten Termin,
+ausgenommen eingetragene Ausfälle. Auf der Startseite erscheinen höchstens
+drei Einträge. Ohne JavaScript werden alle eingetragenen Termine einschließlich
+vergangener Termine angezeigt. Nur öffentliche Termine in der Datei speichern.
+
 Die zugehörigen Stylesheets liegen neben den jeweiligen HTML-Dateien, die
 Bilder in `images`. `css/base.css` enthält gemeinsame Grund- und Header-Stile;
 die Stylesheets neben den Seiten enthalten deren seitenspezifische Regeln.

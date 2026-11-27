@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/base.css" />
     <!-- layout:footer-style -->
     <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/termine/termine.css" />
   </head>
   <body>
     <!-- layout:header -->
@@ -45,7 +46,7 @@
           <span class="note-icon" aria-hidden="true">✳</span
           ><span
             ><strong>Mittwoch ist Trainingstag</strong
-            ><small>16:30–19:00 Uhr</small></span
+            ><small>16:30–19:00 Uhr · Ausnahmen siehe Termine</small></span
           >
         </div>
         <div class="hero-counter" aria-hidden="true">01 <span>—</span> 03</div>
@@ -164,6 +165,17 @@
         </div>
         <div class="news-list"><!-- news:articles --></div>
       </section>
+      <section class="events-section events-preview" id="termine" aria-labelledby="events-title">
+        <div class="events-inner">
+          <p class="eyebrow eyebrow-dark"><span aria-hidden="true"></span> TERMINE</p>
+          <h2 id="events-title">Das steht <em>an.</em></h2>
+          <p class="events-intro">Training, Veranstaltungen und Gelegenheiten zum Zusammensein.</p>
+          <noscript><p>Ohne JavaScript werden auch vergangene Termine angezeigt.</p></noscript>
+          <div class="events-list" data-events data-limit="3"><!-- events:list --></div>
+          <p class="events-empty" hidden>Aktuell stehen keine Termine an.</p>
+          <a class="events-link" href="/termine" data-events-dialog>Alle Termine ansehen <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
       <section class="training" id="training">
         <div class="training-inner">
           <div class="training-copy">
@@ -183,7 +195,7 @@
               <span>NÄCHSTES TRAINING</span
               ><span class="live-dot" aria-label="Regelmäßiger Termin"></span>
             </div>
-            <div class="schedule-day">Jeden</div>
+            <div class="schedule-day">Regelmäßig</div>
             <div class="schedule-time">
               Mittwoch<span>16:30 – 19:00 Uhr</span>
             </div>
@@ -192,7 +204,7 @@
               <span class="location-icon" aria-hidden="true">⌖</span
               ><span
                 ><strong>Trainingsplatz Pyrbaum</strong
-                ><small>Details zum Treffpunkt auf Anfrage</small></span
+                ><small>Details zum Treffpunkt auf Anfrage · <a href="/termine">Ausnahmen und Termine</a></small></span
               >
             </div>
           </div>
@@ -213,6 +225,20 @@
       </div>
       <iframe class="sport-dialog-content" title="Informationen zur Sportart"></iframe>
     </dialog>
+    <dialog class="events-dialog" aria-labelledby="events-dialog-title">
+      <div class="events-dialog-header">
+        <h2 id="events-dialog-title">Alle Termine</h2>
+        <button type="button" class="events-dialog-close" aria-label="Dialog schließen" autofocus>
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="events-dialog-content">
+        <div class="events-list" data-events><!-- events:dialog-list --></div>
+        <p class="events-empty" hidden>Aktuell stehen keine Termine an.</p>
+      </div>
+    </dialog>
     <script src="/js/sport-dialog.js" defer></script>
+    <script src="/js/events-dialog.js" defer></script>
+    <script src="/js/events.js" defer></script>
   </body>
 </html>

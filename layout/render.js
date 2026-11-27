@@ -5,6 +5,7 @@ const pages = [
   'impressum/index.html',
   'kontakt/index.html',
   'rally-obedience/index.html',
+  'termine/index.html',
 ];
 
 function replaceOnce(content, marker, value, filename) {
@@ -34,11 +35,13 @@ function renderPage(page, content, templates) {
     logo: isLegal ? '' : templates.logo,
     homeHref: isHome ? '#start' : '/',
     navPrefix: isHome ? '' : '/',
+    eventsHref: isHome || page === 'termine/index.html' ? '#termine' : '/#termine',
     newsHref: isHome ? '#news' : '/#news',
     ctaHref,
     ctaText: isContact ? 'Zur Startseite' : 'Kontakt',
     imprintCurrent: page === 'impressum/index.html' ? ' aria-current="page"' : '',
     privacyCurrent: page === 'datenschutz/index.html' ? ' aria-current="page"' : '',
+    eventsCurrent: page === 'termine/index.html' ? ' aria-current="page"' : '',
   }, 'layout/header.html');
   const footer = renderTemplate(templates.footer, {
     logo: templates.logo,
