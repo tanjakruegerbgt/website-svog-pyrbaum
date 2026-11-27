@@ -32,6 +32,8 @@ test('escapes article content before inserting it into HTML', () => {
 });
 
 test('rejects invalid news data with a useful error', () => {
+  assert.throws(() => renderNews(null), TypeError);
+  assert.throws(() => renderNews([null]), TypeError);
   assert.throws(() => renderNews([{ id: 'bad id' }]), /needs a non-empty title/);
   assert.throws(() => renderNews([{
     id: 'duplicate', title: 'News', date: '2026-01-01', dateText: '1. Januar',

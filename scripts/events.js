@@ -11,7 +11,7 @@ function requiredText(value, label) {
 }
 
 function renderEvents(data) {
-  if (!data || !data.training || !Array.isArray(data.events)) {
+  if (!data?.training || !Array.isArray(data.events)) {
     throw new Error('termine.json: expected training and events');
   }
   const training = data.training;

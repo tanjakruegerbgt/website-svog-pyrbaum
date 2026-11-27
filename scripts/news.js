@@ -9,61 +9,116 @@ function escapeHtml(value) {
 
 function validateNews(news) {
   if (!Array.isArray(news)) {
-    throw new Error('news.json: expected an array of articles');
+    throw new TypeError('news.json: expected an array of articles');
   }
 
   const ids = new Set();
   for (const [index, article] of news.entries()) {
-    const label = `news.json: article ${index + 1}`;
-    if (!article || typeof article !== 'object') {
-      throw new Error(`${label} must be an object`);
+    validateArticle(article, index, ids);
+  }
+}
+
+function validateArticle(article, index, ids) {
+  const label = `news.json: article ${index + 1}`;
+  if (!article || typeof article !== 'object') {
+    throw new TypeError(`${label} must be an object`);
+  }
+  validateArticleFields(article, label);
+  validateArticleId(article, label, ids);
+  validateArticleDate(article, label);
+  validateArticleImage(article, label);
+  validateArticleBody(article, label);
+}
+
+function validateArticleFields(article, label) {
+  for (const field of ['id', 'title', 'date', 'dateText', 'location']) {
+    if (typeof article[field] !== 'string') {
+      throw new TypeError(`${label} needs a non-empty ${field}`);
     }
-    for (const field of ['id', 'title', 'date', 'dateText', 'location']) {
-      if (typeof article[field] !== 'string' || !article[field].trim()) {
-        throw new Error(`${label} needs a non-empty ${field}`);
-      }
-    }
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.id) || ids.has(article.id)) {
-      throw new Error(`${label} has an invalid or duplicate id`);
-    }
-    ids.add(article.id);
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(article.date)) {
-      throw new Error(`${label} has an invalid date; expected YYYY-MM-DD`);
-    }
-    if (article.image !== null && typeof article.image !== 'string') {
-      throw new Error(`${label} image must be a path or null`);
-    }
-    if (article.image && (!article.image.startsWith('/images/') || article.image.includes('..'))) {
-      throw new Error(`${label} image must point to a file in /images`);
-    }
-    if (article.image && typeof article.imageAlt !== 'string') {
-      throw new Error(`${label} imageAlt must be a string when an image is set`);
-    }
-    if (!Array.isArray(article.body)) {
-      throw new Error(`${label} body must be an array`);
-    }
-    for (const block of article.body) {
-      if (!block || typeof block !== 'object') {
-        throw new Error(`${label} body contains an invalid block`);
-      }
-      if (block.type === 'paragraph' || block.type === 'heading') {
-        if (typeof block.text !== 'string' || !block.text.trim()) {
-          throw new Error(`${label} ${block.type} needs non-empty text`);
-        }
-        if (block.type === 'heading' && block.id &&
-            !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(block.id)) {
-          throw new Error(`${label} heading has an invalid id`);
-        }
-      } else if (block.type === 'list') {
-        if (!Array.isArray(block.items) || block.items.some((item) =>
-          typeof item !== 'string' || !item.trim())) {
-          throw new Error(`${label} list needs non-empty text items`);
-        }
-      } else {
-        throw new Error(`${label} has an unsupported body block type`);
-      }
+    if (!article[field].trim()) {
+      throw new Error(`${label} needs a non-empty ${field}`);
     }
   }
+}
+
+function validateArticleId(article, label, ids) {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.id) || ids.has(article.id)) {
+    throw new Error(`${label} has an invalid or duplicate id`);
+  }
+  ids.add(article.id);
+}
+
+function validateArticleDate(article, label) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(article.date)) {
+    throw new Error(`${label} has an invalid date; expected YYYY-MM-DD`);
+  }
+}
+
+function validateArticleImage(article, label) {
+  if (article.image !== null && typeof article.image !== 'string') {
+    throw new TypeError(`${label} image must be a path or null`);
+  }
+  if (article.image && (!article.image.startsWith('/images/') || article.image.includes('..'))) {
+    throw new Error(`${label} image must point to a file in /images`);
+  }
+  if (article.image && typeof article.imageAlt !== 'string') {
+    throw new TypeError(`${label} imageAlt must be a string when an image is set`);
+  }
+}
+
+function validateArticleBody(article, label) {
+  if (!Array.isArray(article.body)) {
+    throw new TypeError(`${label} body must be an array`);
+  }
+  for (const block of article.body) {
+    validateBodyBlock(block, label);
+  }
+}
+
+function validateBodyBlock(block, label) {
+  if (!block || typeof block !== 'object') {
+    throw new TypeError(`${label} body contains an invalid block`);
+  }
+  switch (block.type) {
+    case 'paragraph':
+    case 'heading':
+      validateTextBlock(block, label);
+      if (block.type === 'heading') validateHeadingId(block, label);
+      break;
+    case 'list':
+      validateListBlock(block, label);
+      break;
+    default:
+      throw new Error(`${label} has an unsupported body block type`);
+  }
+}
+
+function validateTextBlock(block, label) {
+  if (typeof block.text !== 'string') {
+    throw new TypeError(`${label} ${block.type} text must be a string`);
+  }
+  if (!block.text.trim()) {
+    throw new Error(`${label} ${block.type} needs non-empty text`);
+  }
+}
+
+function validateHeadingId(block, label) {
+  if (block.id && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(block.id)) {
+    throw new Error(`${label} heading has an invalid id`);
+  }
+}
+
+function validateListBlock(block, label) {
+  if (!Array.isArray(block.items)) {
+    throw new TypeError(`${label} list items must be an array`);
+  }
+  if (block.items.some((item) => typeof item !== 'string' || !item.trim())) {
+    throw new Error(`${label} list needs non-empty text items`);
+  }
+}
+
+function renderListItem(item) {
+  return `<li>${escapeHtml(item)}</li>`;
 }
 
 function renderBodyBlock(block) {
@@ -74,7 +129,8 @@ function renderBodyBlock(block) {
     const id = block.id ? ` id="${escapeHtml(block.id)}"` : '';
     return `<h3${id}>${escapeHtml(block.text)}</h3>`;
   }
-  return `<ul>${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+  const items = block.items.map(renderListItem).join('');
+  return `<ul>${items}</ul>`;
 }
 
 function renderArticle(article) {
