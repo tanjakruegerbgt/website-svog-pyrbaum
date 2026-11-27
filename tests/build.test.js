@@ -22,7 +22,7 @@ test('builds and serves the static site, including updates', async (t) => {
   const output = path.join(fixture, 'dist');
   fs.mkdirSync(output);
   fs.writeFileSync(path.join(output, 'stale.txt'), 'stale');
-  build();
+  build(output, '');
   assert.equal(fs.existsSync(path.join(output, 'stale.txt')), false);
   assert.equal(fs.existsSync(path.join(output, 'js', 'app.js')), false);
   assert.equal(fs.readFileSync(path.join(output, 'js', 'sport-dialog.js'), 'utf8'),
@@ -60,6 +60,17 @@ test('builds and serves the static site, including updates', async (t) => {
   for (const asset of ['index.css', 'css/base.css', 'kontakt/kontakt.css', '404.html']) {
     assert.equal(fs.readFileSync(path.join(output, asset), 'utf8'), read(asset));
   }
+  build(output, '/website-svog-pyrbaum');
+  const deployedHome = fs.readFileSync(path.join(output, 'index.html'), 'utf8');
+  assert.ok(deployedHome.includes('href="/website-svog-pyrbaum/css/base.css"'));
+  assert.ok(deployedHome.includes('src="/website-svog-pyrbaum/images/hunde-im-herbstlaub.png"'));
+  assert.ok(deployedHome.includes('src="/website-svog-pyrbaum/js/sport-dialog.js"'));
+  assert.ok(deployedHome.includes('href="/website-svog-pyrbaum/kontakt"'));
+  const deployedContact = fs.readFileSync(path.join(output, 'kontakt', 'index.html'), 'utf8');
+  assert.ok(deployedContact.includes('href="/website-svog-pyrbaum/kontakt/kontakt.css"'));
+  assert.ok(deployedContact.includes('href="/website-svog-pyrbaum/impressum"'));
+  build(output, '');
+
   const contact = fs.readFileSync(path.join(output, 'kontakt', 'index.html'), 'utf8');
   assert.match(contact, /<header\b/);
   assert.doesNotMatch(contact, /<!-- layout:/);
