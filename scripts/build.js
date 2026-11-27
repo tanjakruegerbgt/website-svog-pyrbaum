@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { pages, renderPage } = require('../layout/render');
+const { renderNews } = require('./news');
 
 const root = path.resolve(__dirname, '..');
 const pageDirectories = pages.slice(1).map((page) => page.split('/')[0]);
@@ -9,19 +10,9 @@ const files = [
   'index.css', 'icon.svg', 'favicon.ico', 'favicon.svg', 'robots.txt',
   'icon.png', '404.html', 'site.webmanifest',
 ];
-const inputs = [...pages, 'layout', ...directories, ...files];
+const inputs = [...pages, 'layout', ...directories, ...files, 'news.json'];
 
-function addBasePath(content, basePath) {
-  const segments = basePath.split('/').filter(Boolean);
-  if (segments.length === 0) return content;
-  const prefix = `/${segments.join('/')}`;
-  return content.replace(
-    /(\b(?:href|src|action|poster|formaction)\s*=\s*["'])\/(?!\/)/gi,
-    (_match, attribute) => `${attribute}${prefix}/`,
-  );
-}
-
-function build(output = path.join(root, 'dist'), basePath = process.env.SITE_BASE_PATH || '') {
+function build(output = path.join(root, 'dist')) {
   const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
   const templates = {
     header: read('layout/header.html'),
@@ -29,7 +20,19 @@ function build(output = path.join(root, 'dist'), basePath = process.env.SITE_BAS
     logo: read('layout/logo.html'),
     footerStyle: read('layout/footer.css'),
   };
-  const rendered = pages.map((page) => [page, renderPage(page, read(page), templates)]);
+  const news = renderNews(JSON.parse(read('news.json')));
+  const rendered = pages.map((page) => {
+    let content = read(page);
+    if (page === 'index.html') {
+      const marker = '<!-- news:articles -->';
+      const parts = content.split(marker);
+      if (parts.length !== 2) {
+        throw new Error(`${page}: expected exactly one ${marker}`);
+      }
+      content = parts[0] + news + parts[1];
+    }
+    return [page, renderPage(page, content, templates)];
+  });
 
   fs.rmSync(output, { recursive: true, force: true });
   fs.mkdirSync(output, { recursive: true });
@@ -51,7 +54,7 @@ function build(output = path.join(root, 'dist'), basePath = process.env.SITE_BAS
   for (const [page, content] of rendered) {
     const destination = path.join(output, page);
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, addBasePath(content, basePath));
+    fs.writeFileSync(destination, content);
   }
 }
 
