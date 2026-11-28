@@ -1,0 +1,77 @@
+name: Deploy Branch to Dev Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch aus diesem Repository, das deployed werden soll"
+        required: true
+        default: "main"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dev-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy-Branch ausgeben
+        run: echo "Deploy-Branch: ${{ inputs.branch }}"
+
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Abhaengigkeiten installieren
+        run: npm install
+
+      - name: Anwendung bauen
+        run: npm run build
+        env:
+          SITE_BASE_PATH: /website-svog-pyrbaum-dev
+
+      - name: Build-Status ausgeben
+        run: echo "Build-Status: erfolgreich"
+
+      - name: Dev-Seite veroeffentlichen
+        env:
+          DEV_DEPLOY_TOKEN: ${{ secrets.DEV_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "$DEV_DEPLOY_TOKEN" ]; then
+            echo "::error::Das Repository-Secret DEV_DEPLOY_TOKEN ist nicht gesetzt."
+            exit 1
+          fi
+
+          git clone --depth 1 \
+            "https://x-access-token:${DEV_DEPLOY_TOKEN}@github.com/tanjakruegerbgt/website-svog-pyrbaum-dev.git" \
+            dev-pages
+
+          cd dev-pages
+          git switch --orphan gh-pages
+          git rm -rf . >/dev/null 2>&1 || true
+          cp -R ../dist/. .
+          touch .nojekyll
+
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Dev-Stand ist unveraendert."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Deploy ${{ inputs.branch }} to dev Pages"
+          git push origin gh-pages --force
