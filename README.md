@@ -87,3 +87,18 @@ bereitgestellt werden.
 
 Das Kontaktformular öffnet das lokale E-Mail-Programm; die Nachricht wird erst
 dort nach Bestätigung versendet. Es gibt keinen Formular-Backenddienst.
+
+## Dev-Deployment
+
+Über **Actions → Deploy Branch to Dev Pages** kann ein beliebiger Branch manuell
+ausgewählt und auf der separaten Entwicklungsumgebung
+https://tanjakruegerbgt.github.io/website-svog-pyrbaum-dev/ veröffentlicht werden.
+Der Workflow baut den eingegebenen Branch mit dem Basispfad
+`/website-svog-pyrbaum-dev` und überschreibt den Branch `gh-pages` des
+Dev-Repositories.
+
+Für das Deployment benötigt das produktive Repository das Actions-Secret
+`DEV_DEPLOY_TOKEN`. Das Personal Access Token oder ein Fine-grained Token muss
+Inhalt des Dev-Repositories lesen und in den Branch `gh-pages` schreiben dürfen.
+Im Dev-Repository muss GitHub Pages für den Branch `gh-pages` des Repository-Roots
+aktiviert sein.
