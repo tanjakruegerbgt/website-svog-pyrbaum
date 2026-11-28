@@ -1,0 +1,119 @@
+.events-section {
+  padding: 90px 0;
+}
+.events-preview {
+  background: #e9eee2;
+}
+.events-page {
+  min-height: 60vh;
+}
+.events-inner {
+  width: min(86%, 1150px);
+  margin: 0 auto;
+}
+.events-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 17px;
+  color: #7d8277;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+.events-eyebrow > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #97ab53;
+}
+.events-section h1,
+.events-section h2 {
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(42px, 5vw, 66px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+.events-section h1 em,
+.events-section h2 em {
+  color: #6a8038;
+  font-weight: 400;
+}
+.events-intro {
+  color: #555f54;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+.events-list {
+  display: grid;
+  gap: 12px;
+}
+.event-card {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) 2fr;
+  gap: 25px;
+  background: #fff;
+  border-left: 4px solid #a0b85e;
+  padding: 24px;
+}
+.event-card[hidden],
+.event-next[hidden],
+.events-empty[hidden] {
+  display: none;
+}
+.event-date {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+.event-date > span {
+  color: #536a3a;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.event-date strong,
+.event-date > time:not(.event-next) {
+  font-size: 17px;
+  font-weight: 700;
+}
+.event-next,
+.event-content p {
+  color: #555f54;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.event-content h3 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+.event-content p {
+  margin: 4px 0;
+}
+.events-link {
+  display: inline-block;
+  margin-top: 28px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.events-link:hover {
+  text-decoration: underline;
+}
+.events-link:focus-visible {
+  outline: 2px solid #536a3a;
+  outline-offset: 4px;
+}
+@media (width <= 600px) {
+  .events-section {
+    padding: 60px 0;
+  }
+  .event-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="Alle anstehenden Termine und Trainingszeiten beim Hundesport Pyrbaum." />
+    <meta name="theme-color" content="#f6f5f0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Termine – Hundesport Pyrbaum</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <!-- layout:footer-style -->
+    <link rel="stylesheet" href="/termine/termine.css" />
+  </head>
+  <body>
+    <!-- layout:header -->
+    <main>
+      <section class="events-section events-page" id="termine" aria-labelledby="events-title">
+        <div class="events-inner">
+          <p class="events-eyebrow"><span aria-hidden="true"></span> TERMINE</p>
+          <h1 id="events-title">Unsere <em>Termine.</em></h1>
+          <p class="events-intro">Hier findet ihr unser regelmäßiges Training und die anstehenden Veranstaltungen.</p>
+          <noscript><p>Ohne JavaScript werden auch vergangene Termine angezeigt.</p></noscript>
+          <div class="events-list" data-events><!-- events:list --></div>
+          <p class="events-empty" hidden>Aktuell stehen keine Termine an.</p>
+          <a class="events-link" href="/kontakt">Fragen zu einem Termin? Kontaktiert uns <span class="link-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </section>
+    </main>
+    <!-- layout:footer -->
+    <script src="/js/events.js" defer></script>
+  </body>
+</html>

@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { pages, renderPage } = require('../layout/render');
+const { renderNews } = require('./news');
+const { renderEvents } = require('./events');
 
 const root = path.resolve(__dirname, '..');
 const pageDirectories = pages.slice(1).map((page) => page.split('/')[0]);
@@ -9,7 +11,7 @@ const files = [
   'index.css', 'icon.svg', 'favicon.ico', 'favicon.svg', 'robots.txt',
   'icon.png', '404.html', 'site.webmanifest',
 ];
-const inputs = [...pages, 'layout', ...directories, ...files];
+const inputs = [...pages, 'layout', ...directories, ...files, 'news.json', 'termine.json'];
 
 function addBasePath(content, basePath) {
   const segments = basePath.split('/').filter(Boolean);
@@ -29,7 +31,36 @@ function build(output = path.join(root, 'dist'), basePath = process.env.SITE_BAS
     logo: read('layout/logo.html'),
     footerStyle: read('layout/footer.css'),
   };
-  const rendered = pages.map((page) => [page, renderPage(page, read(page), templates)]);
+  const news = renderNews(JSON.parse(read('news.json')));
+  const events = renderEvents(JSON.parse(read('termine.json')));
+  const rendered = pages.map((page) => {
+    let content = read(page);
+    if (page === 'index.html') {
+      const marker = '<!-- news:articles -->';
+      const parts = content.split(marker);
+      if (parts.length !== 2) {
+        throw new Error(`${page}: expected exactly one ${marker}`);
+      }
+      content = parts[0] + news + parts[1];
+    }
+    if (page === 'index.html' || page === 'termine/index.html') {
+      const marker = '<!-- events:list -->';
+      const parts = content.split(marker);
+      if (parts.length !== 2) {
+        throw new Error(`${page}: expected exactly one ${marker}`);
+      }
+      content = parts[0] + events + parts[1];
+    }
+    if (page === 'index.html') {
+      const marker = '<!-- events:dialog-list -->';
+      const parts = content.split(marker);
+      if (parts.length !== 2) {
+        throw new Error(`${page}: expected exactly one ${marker}`);
+      }
+      content = parts[0] + events + parts[1];
+    }
+    return [page, renderPage(page, content, templates)];
+  });
 
   fs.rmSync(output, { recursive: true, force: true });
   fs.mkdirSync(output, { recursive: true });

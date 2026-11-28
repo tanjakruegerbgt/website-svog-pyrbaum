@@ -17,14 +17,18 @@ test('builds and serves the static site, including updates', async (t) => {
   }
 
   const { build } = require(path.join(fixture, 'scripts', 'build'));
+  const { renderNews } = require(path.join(fixture, 'scripts', 'news'));
+  const { renderEvents } = require(path.join(fixture, 'scripts', 'events'));
   const output = path.join(fixture, 'dist');
   fs.mkdirSync(output);
   fs.writeFileSync(path.join(output, 'stale.txt'), 'stale');
-  build();
+  build(output, '');
   assert.equal(fs.existsSync(path.join(output, 'stale.txt')), false);
   assert.equal(fs.existsSync(path.join(output, 'js', 'app.js')), false);
   assert.equal(fs.readFileSync(path.join(output, 'js', 'sport-dialog.js'), 'utf8'),
     fs.readFileSync(path.join(fixture, 'js', 'sport-dialog.js'), 'utf8'));
+  assert.equal(fs.readFileSync(path.join(output, 'js', 'events-dialog.js'), 'utf8'),
+    fs.readFileSync(path.join(fixture, 'js', 'events-dialog.js'), 'utf8'));
   assert.deepEqual(fs.readFileSync(path.join(output, 'images', 'hunde-im-herbstlaub.png')),
     fs.readFileSync(path.join(fixture, 'images', 'hunde-im-herbstlaub.png')));
   const { pages, renderPage } = require(path.join(fixture, 'layout', 'render'));
@@ -36,9 +40,23 @@ test('builds and serves the static site, including updates', async (t) => {
     footerStyle: read('layout/footer.css'),
   };
   for (const page of pages) {
+    let source = read(page);
+    if (page === 'index.html') {
+      source = source.replace('<!-- news:articles -->',
+        renderNews(JSON.parse(read('news.json'))));
+    }
+    if (page === 'index.html' || page === 'termine/index.html') {
+      source = source.replace('<!-- events:list -->',
+        renderEvents(JSON.parse(read('termine.json'))));
+    }
+    if (page === 'index.html') {
+      source = source.replace('<!-- events:dialog-list -->',
+        renderEvents(JSON.parse(read('termine.json'))));
+    }
     assert.equal(fs.readFileSync(path.join(output, page), 'utf8'),
-      renderPage(page, read(page), templates));
+      renderPage(page, source, templates));
   }
+  assert.equal(fs.existsSync(path.join(output, 'news.json')), false);
   for (const asset of ['index.css', 'css/base.css', 'kontakt/kontakt.css', '404.html']) {
     assert.equal(fs.readFileSync(path.join(output, asset), 'utf8'), read(asset));
   }
@@ -47,11 +65,12 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.ok(deployedHome.includes('href="/website-svog-pyrbaum/css/base.css"'));
   assert.ok(deployedHome.includes('src="/website-svog-pyrbaum/images/hunde-im-herbstlaub.png"'));
   assert.ok(deployedHome.includes('src="/website-svog-pyrbaum/js/sport-dialog.js"'));
+  assert.ok(deployedHome.includes('href="/website-svog-pyrbaum/kontakt"'));
   const deployedContact = fs.readFileSync(path.join(output, 'kontakt', 'index.html'), 'utf8');
-  assert.ok(deployedContact.includes('href="/website-svog-pyrbaum/"'));
+  assert.ok(deployedContact.includes('href="/website-svog-pyrbaum/kontakt/kontakt.css"'));
   assert.ok(deployedContact.includes('href="/website-svog-pyrbaum/impressum"'));
+  build(output, '');
 
-  build(output);
   const contact = fs.readFileSync(path.join(output, 'kontakt', 'index.html'), 'utf8');
   assert.match(contact, /<header\b/);
   assert.doesNotMatch(contact, /<!-- layout:/);
@@ -67,7 +86,11 @@ test('builds and serves the static site, including updates', async (t) => {
   assert.equal((await fetch(`${base}/kontakt/`)).status, 200);
   assert.equal((await fetch(`${base}/css/base.css`)).status, 200);
   assert.equal((await fetch(`${base}/js/sport-dialog.js`)).status, 200);
+  assert.equal((await fetch(`${base}/js/events-dialog.js`)).status, 200);
   assert.equal((await fetch(`${base}/js/imprint-dialog.js`)).status, 200);
+  assert.equal((await fetch(`${base}/termine`)).status, 200);
+  assert.match(await (await fetch(`${base}/termine`)).text(), /Weihnachtsfeier/);
+  assert.equal((await fetch(`${base}/js/events.js`)).status, 200);
   assert.equal((await fetch(`${base}/not-found`)).status, 404);
   assert.equal((await fetch(`${base}/package.json`)).status, 404);
   assert.equal((await fetch(`${base}/kontakt`, { method: 'HEAD' })).status, 200);
