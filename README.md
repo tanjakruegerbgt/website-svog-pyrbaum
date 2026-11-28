@@ -90,10 +90,11 @@ dort nach Bestätigung versendet. Es gibt keinen Formular-Backenddienst.
 
 ## Dev-Deployment
 
-Über **Actions → Deploy Branch to Dev Pages** kann ein beliebiger Branch manuell
-ausgewählt und auf der separaten Entwicklungsumgebung
+Über **Actions → Deploy Branch to Dev Pages → Run workflow** kann im
+Branch-Auswahlmenü ein beliebiger Branch manuell ausgewählt und auf der
+separaten Entwicklungsumgebung
 https://tanjakruegerbgt.github.io/website-svog-pyrbaum-dev/ veröffentlicht werden.
-Der Workflow baut den eingegebenen Branch mit dem Basispfad
+Der Workflow checkt genau den ausgewählten Branch aus und baut ihn mit dem Basispfad
 `/website-svog-pyrbaum-dev` und überschreibt den Branch `gh-pages` des
 Dev-Repositories.
 

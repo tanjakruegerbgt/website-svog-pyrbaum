@@ -2,12 +2,6 @@ name: Deploy Branch to Dev Pages
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Branch aus diesem Repository, das deployed werden soll"
-        required: true
-        default: "main"
-        type: string
 
 permissions:
   contents: read
@@ -22,12 +16,13 @@ jobs:
 
     steps:
       - name: Deploy-Branch ausgeben
-        run: echo "Deploy-Branch: ${{ inputs.branch }}"
+        run: |
+          echo "Deploy-Branch: $GITHUB_REF_NAME"
 
       - name: Repository auschecken
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ github.ref }}
 
       - name: Node.js einrichten
         uses: actions/setup-node@v4
@@ -44,11 +39,13 @@ jobs:
           SITE_BASE_PATH: /website-svog-pyrbaum-dev
 
       - name: Build-Status ausgeben
-        run: echo "Build-Status: erfolgreich"
+        run: |
+          echo "Build-Status: erfolgreich"
 
       - name: Dev-Seite veroeffentlichen
         env:
           DEV_DEPLOY_TOKEN: ${{ secrets.DEV_DEPLOY_TOKEN }}
+          DEPLOY_BRANCH: ${{ github.ref_name }}
         run: |
           if [ -z "$DEV_DEPLOY_TOKEN" ]; then
             echo "::error::Das Repository-Secret DEV_DEPLOY_TOKEN ist nicht gesetzt."
@@ -73,5 +70,5 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Deploy ${{ inputs.branch }} to dev Pages"
+          git commit -m "Deploy ${DEPLOY_BRANCH} to dev Pages"
           git push origin gh-pages --force
